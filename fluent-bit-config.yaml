@@ -1,0 +1,27 @@
+pipeline:
+  inputs:
+    - name: tail
+      path: /tmp/main.log
+      refresh_interval: 1
+      parser: fastapi_json_parser
+      read_from_head: true
+      
+  outputs:
+    - name: stdout
+      match: '*'
+
+    - name: es
+      match: '*'
+      Host: es01
+      Port: 9200
+      Index: metrics
+      Type: _doc
+      Suppress_Type_Name: On
+      Time_key: "@timestamp"
+
+parsers:
+  - name: fastapi_json_parser
+    Format: json
+    Time_Key: timestamp
+    Time_Format: "%Y-%m-%dT%H:%M:%S.%L"
+

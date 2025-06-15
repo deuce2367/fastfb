@@ -1,0 +1,44 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  default:
+    (): 'uvicorn.logging.AccessFormatter'
+    fmt: '{"timestamp": "%(asctime)s", [%(levelname)s] - "%(request_line)s" %(status_code)s - %(message)s'
+#  access:
+#    (): 'uvicorn.logging.AccessFormatter'
+#    fmt: '{"timestamp": "%(asctime)s", [%(levelname)s] %(client_addr)s - "%(request_line)s" %(status_code)s - %(message)s'
+  json:
+    (): 'pythonjsonlogger.json.JsonFormatter'
+    fmt: '{%(asctime)s}{%(levelname)s}{%(client_addr)s}{%(request_line)s}{%(status_code)s}{%(message)s}'
+handlers:
+  default:
+    class: logging.StreamHandler
+    formatter: default
+    stream: ext://sys.stderr
+#  access:
+#    class: logging.StreamHandler
+#    formatter: access
+#    stream: ext://sys.stdout
+  logfile_handler:
+    class: logging.FileHandler
+    formatter: json
+    level: INFO
+    filename: '/tmp/main.log'
+loggers:
+  uvicorn:
+    level: INFO
+    handlers:
+      - default
+      - logfile_handler
+  uvicorn.error:
+    level: INFO
+    propagate: False
+    handlers:
+      - default
+      - logfile_handler
+  uvicorn.access:
+    level: INFO
+    propagate: False
+    handlers:
+      - default
+      - logfile_handler
