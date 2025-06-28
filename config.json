@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-06-27T18:00:00Z",
+  "level": "info",
+  "message": "User login",
+  "data": {
+    "user": {
+      "id": "abc123",
+      "name": "Jane"
+    },
+    "request": {
+      "ip": "192.168.1.10",
+      "user_agent": "Mozilla/5.0"
+    }
+  }
+}

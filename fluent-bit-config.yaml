@@ -5,6 +5,13 @@ pipeline:
       refresh_interval: 1
       parser: fastapi_json_parser
       read_from_head: true
+
+  filters:
+    - name: lua
+      match: "*"
+      script: inject-fields.lua
+      call: inject
+
       
   outputs:
     - name: stdout
